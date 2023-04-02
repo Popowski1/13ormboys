@@ -20,6 +20,13 @@ res.json(dbCatData);
 router.get('/:id', (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
+  Category.findOne({where: { id: req.params.id }, 
+                             include: {model:Product,attributies: ['id', 'product_name', 'price', 'stock', 'category_id']}})
+  .then(dbCatData => {if(!dbCatData) { res.status(404).json({ message: 'not found cat'});
+return;}
+
+res.json(dbCatData);
+  });
 });
 
 router.post('/', (req, res) => {
